@@ -1,13 +1,34 @@
-; Estrutura representando uma célula do tabuleiro
-(defstruct cell
-    group   ; Bloco
-    value   ; Valor
+; Estrutura representando o tabuleiro
+(defstruct
+    (board
+        (:print-function
+            (lambda (struct stream depth)
+                (declare (ignore depth))
+                (loop for row across (board-cells struct) do
+                    (loop for cell across row do
+                        (format stream "~a " cell)
+                    )
+                    (format stream "~%")
+                )
+            )
+        )
+    )
+    size    ; Tamanho (nxn)
+    cells   ; Células
 )
 
-; Estrutura representando o tabuleiro
-(defstruct board
-    n       ; Tamanho do tabuleiro (nxn)
-    cells   ; Matrix de células
+; Estrutura representando uma célula do tabuleiro
+(defstruct
+    (cell
+        (:print-function
+            (lambda (struct stream depth)
+                (declare (ignore depth))
+                (format stream "~A-~A" (cell-group struct) (cell-value struct))
+            )
+        )
+    )
+    group   ; Bloco
+    value   ; Valor
 )
 
 ; Cria uma célula conforme o padrão GRUPO-VALOR
@@ -29,7 +50,7 @@
     )
 
     (if (string= current "_")
-        (setq value nil)
+        (setq value "_") ; Talvez seja necessário alterar no futuro
         (setq value (parse-integer current))
     )
 
@@ -61,7 +82,7 @@
 ; Construção de um tabuleiro a partir de um arquivo
 (defun load-board(size filename)
     (with-open-file (stream filename)
-        (make-array size :initial-contents (loop for line = (read-line stream nil) while line collect (make-array size :initial-contents (row-from-string line))))
+        (make-board :size size :cells (make-array size :initial-contents (loop for line = (read-line stream nil) while line collect (make-array size :initial-contents (row-from-string line)))))
     )
 )
 
