@@ -23,7 +23,7 @@
         (:print-function
             (lambda (struct stream depth)
                 (declare (ignore depth))
-                (format stream "~A-~A" (cell-group struct) (cell-value struct))
+                (format stream "~A-~A" (cell-group struct) (if (cell-value struct) (cell-value struct) "_"))
             )
         )
     )
@@ -50,7 +50,7 @@
     )
 
     (if (string= current "_")
-        (setq value "_") ; Talvez seja necessário alterar no futuro
+        (setq value nil)
         (setq value (parse-integer current))
     )
 
@@ -86,16 +86,15 @@
     )
 )
 
-; Função responsável pela impressão de um tabuleiro
-(defun print-board(board)
-    (declare (ignore board))
-    (write-line "Não implementado")
+(defun is-solved(board)
+    (not (member nil (loop for row across (board-cells board) collect (loop for cell across row never (eq (cell-value cell) nil)))))
 )
 
 ; Função responsável por resolver um tabuleiro, caso haja solução
-(defun solve(board)
-    (princ (print-board board))
-    (princ "Resolvendo o tabuleiro...")
-)
+;; (defun solve(board)
+;;     (princ "Resolvendo o tabuleiro...") 
+;; )
 
-(princ (load-board 6 "Examples/6x6.txt"))
+(setq my-board (load-board 6 "Examples/6x6-Solution.txt"))
+(princ my-board)
+(princ (is-solved my-board))
