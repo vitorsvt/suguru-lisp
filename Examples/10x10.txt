@@ -1,0 +1,10 @@
+A-_ A-3 B-_ B-_ C-_ C-7 C-_ C-5 D-_ E-_
+A-5 A-_ B-1 B-6 C-_ C-_ C-3 D-2 D-_ E-4
+F-_ A-_ B-5 B-2 B-_ G-2 G-_ G-4 G-5 E-_
+F-3 H-_ H-6 H-_ H-_ G-_ G-1 G-_ E-_ E-3
+F-6 F-2 H-_ H-_ I-1 I-_ I-_ J-_ K-6 K-_
+L-_ F-5 F-_ I-7 I-_ I-_ I-4 J-_ K-5 K-4
+L-2 L-_ M-2 N-3 N-4 J-_ J-1 J-_ K-3 K-_
+M-_ M-_ M-_ N-_ N-2 N-_ J-_ J-_ O-_ O-4
+M-4 M-_ P-5 P-4 P-_ P-1 Q-3 Q-_ O-3 O-_
+R-2 R-1 P-_ P-3 P-7 Q-_ Q-7 Q-6 Q-1 Q-4
