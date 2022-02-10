@@ -4,8 +4,8 @@
         (:print-function
             (lambda (struct stream depth)
                 (declare (ignore depth))
-                (loop for row across (board-cells struct) do
-                    (loop for cell across row do
+                (loop for row in (board-cells struct) do
+                    (loop for cell in row do
                         (format stream "~a " cell)
                     )
                     (format stream "~%")
@@ -80,14 +80,26 @@
 )
 
 ; Construção de um tabuleiro a partir de um arquivo
-(defun load-board(size filename)
+(defun board-load(size filename)
     (with-open-file (stream filename)
-        (make-board :size size :cells (make-array size :initial-contents (loop for line = (read-line stream nil) while line collect (make-array size :initial-contents (row-from-string line)))))
+        (make-board :size size :cells (loop for line = (read-line stream nil) while line collect (row-from-string line)))
     )
 )
 
-(defun is-solved(board)
-    (not (member nil (loop for row across (board-cells board) collect (loop for cell across row never (eq (cell-value cell) nil)))))
+(defun board-solved(board)
+    (not (member nil (loop for row in (board-cells board) collect (loop for cell in row never (eq (cell-value cell) nil)))))
+)
+
+(defun board-at(board position)
+    (nth (nth 1 position) (nth (nth 0 position) (board-cells board)))
+)
+
+(defun board-nothing-at(board position)
+    (eq nil (cell-value (board-at board position)))
+)
+
+(defun get-next-cell(board)
+    (loop for i from 0 below (board-size board) nconcing (loop for j from 0 below (board-size board) if (board-nothing-at board (list i j)) collect (list i j)))
 )
 
 ; Função responsável por resolver um tabuleiro, caso haja solução
@@ -95,6 +107,7 @@
 ;;     (princ "Resolvendo o tabuleiro...") 
 ;; )
 
-(setq my-board (load-board 6 "Examples/6x6-Solution.txt"))
-(princ my-board)
-(princ (is-solved my-board))
+(setq my-board (board-load 6 "Examples/6x6.txt"))
+(print my-board)
+(print (board-solved my-board))
+(print (get-next-cell my-board))
