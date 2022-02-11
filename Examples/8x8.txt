@@ -1,8 +1,8 @@
 A-1 A-_ B-3 B-_ C-_ D-5 D-3 D-_
 B-5 B-_ B-_ C-4 C-_ D-2 D-_ E-_
 F-_ F-_ F-6 C-_ G-1 G-_ D-1 E-_
-F-4 F-_ H-_ H-5 G-_ G-5 G-_ E-3     
+F-4 F-_ H-_ H-5 G-_ G-5 G-_ E-3
 F-3 H-6 H-_ H-1 H-_ I-_ I-4 E-_
 J-2 K-_ K-_ K-_ I-3 I-_ L-_ M-3
-J-_ K-6 K-_ K-1 L-_ L-_ L-5 M-_  
-J-1 J-_ J-3 J-_ L-3 L-_ M-_ M-1      
+J-_ K-6 K-_ K-1 L-_ L-_ L-5 M-_
+J-1 J-_ J-3 J-_ L-3 L-_ M-_ M-1
