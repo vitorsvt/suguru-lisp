@@ -86,14 +86,25 @@
     )
 )
 
+; checa se o tabuleiro foi resolvido
 (defun board-solved(board)
-    (not (member nil (loop for row in (board-cells board) collect (loop for cell in row never (eq (cell-value cell) nil)))))
+    (not 
+        (member nil 
+            (loop for row in (board-cells board) collect 
+                (loop for cell in row never 
+                    (eq (cell-value cell) nil)
+                )
+            )
+        )
+    )
 )
 
+; Verifica se a posição é valida, isto é, está dentro dos limites do tabuleiro
 (defun valid-position(n i j)
     (and (>= i 0) (>= j 0) (< i n) (< j n))
 )
 
+; retorna uma celula em uma posição
 (defun board-at(board position)
     (let
         (
@@ -104,6 +115,7 @@
     )
 )
 
+; Adiciona um valor ao tabuleiro
 (defun board-set(board position value)
     (let
         (
@@ -115,10 +127,12 @@
     )
 )
 
+; Retorna o valor de uma celula com base na sua posicao
 (defun value-at(board position)
     (cell-value (board-at board position))
 )
 
+; Retorna verdadeiro se não há nenhum valor na célula
 (defun board-nothing-at(board position)
     (eq nil (cell-value (board-at board position)))
 )
@@ -139,23 +153,35 @@
     )
 )
 
+; Posicao de todos os vizinhos imediatos a uma celula
 (defun get-neighbor-positions(i j)
-    (loop for a from -1 to 1 nconcing (loop for b from -1 to 1 if (not (and (= a 0) (= b 0))) collect (list (+ i a) (+ j b))))
+    (loop for a from -1 to 1 nconcing 
+        (loop for b from -1 to 1
+            if (not (and (= a 0) (= b 0))) collect (list (+ i a) (+ j b))
+        )
+    )
 )
 
+; Vizinhos de uma posicao (x,y)
 (defun get-neighbors(board i j)
-    (loop for neighbor in (loop for position in (get-neighbor-positions i j) collect (board-at board position)) if neighbor collect neighbor)
+    (loop for neighbor in 
+        (loop for position in 
+            (get-neighbor-positions i j) collect (board-at board position)
+        ) if neighbor collect neighbor)
 )
 
+; O valor dos vizinhos
 (defun get-neighbor-values(board i j)
     (loop for neighbor in (get-neighbors board i j) if (cell-value neighbor) collect (cell-value neighbor))
 )
+
 
 ; Retorna todas as células de um bloco
 (defun board-block(board block)
     (loop for cell in (board-cells-1d board) if (string= (cell-block cell) block) collect cell)
 )
 
+; As opções validas para uma determinada celula ou Nothing.
 (defun get-cell-options(board position)
     (let 
         (
@@ -163,14 +189,26 @@
             (i (nth 0 position))
             (j (nth 1 position))
         )
-        (loop for option in (block-options board (cell-block cell)) if (not (member option (get-neighbor-values board i j))) collect option)
+        (loop for option in (block-options board (cell-block cell)) 
+            if (not (member option (get-neighbor-values board i j))) collect option
+        )
     )
 )
 
-; Checa todas as células do tabuleiro retornando as que não foram respondidas ainda
+; Checa todas as células do tabuleiro retornando as que não foram respondidas
 ; Retorna a posição com menos opções, ou nil caso não haja mais posições livres
 (defun get-next-cell(board)
-    (reduce (lambda (a b) (get-next-cell* board a b)) (loop for i from 0 below (board-size board) nconcing (loop for j from 0 below (board-size board) if (board-nothing-at board (list i j)) collect (list i j))))
+    (reduce 
+        (lambda (a b) 
+            (get-next-cell* board a b)) 
+            (loop for i from 0 below 
+                (board-size board) nconcing 
+                    (loop for j from 0 below (board-size board)
+                        if (board-nothing-at board (list i j)) 
+                            collect (list i j)
+                    )
+            )
+    )
 )
 
 ; Itera sobre as células não respondidas, retornando a posição com menos possibilidades
@@ -209,6 +247,7 @@
     )
 )
 
+; Função auxiliar de solução que realiza o backtracking.
 (defun solve*(board pos options)
     (cond
         ((null options)
@@ -232,8 +271,13 @@
     )
 )
 
-(setq my-board (board-load 6 "Examples/6x6.txt"))
+(defun main()
+
+(setq my-board (board-load 10 "Examples/10x10.txt"))
 
 (print my-board)
 (solve my-board)
 (print my-board)
+)
+
+(main)
