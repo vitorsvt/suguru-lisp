@@ -213,22 +213,12 @@
 
 ; Itera sobre as células não respondidas, retornando a posição com menos possibilidades
 (defun get-next-cell*(board position-a position-b)
-    (cond
-        ((null position-a)
-            nil
+    (let
+        (
+            (a (get-cell-options board position-a))
+            (b (get-cell-options board position-b))
         )
-        ((null position-b)
-            nil
-        )
-        (t
-            (let
-                (
-                    (a (get-cell-options board position-a))
-                    (b (get-cell-options board position-b))
-                )
-                (if (< (length a) (length b)) position-a position-b)
-            )
-        )
+        (if (< (length a) (length b)) position-a position-b)
     )
 )
 
