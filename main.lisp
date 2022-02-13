@@ -262,12 +262,10 @@
 )
 
 (defun main()
-
-(setq my-board (board-load 10 "Examples/10x10.txt"))
-
-(print my-board)
-(solve my-board)
-(print my-board)
+    (setq my-board (board-load 10 "Examples/10x10.txt"))
+    (print my-board)
+    (solve my-board)
+    (print my-board)
 )
 
 (main)
